@@ -1,61 +1,270 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing Arcade</title>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marketing Arcade 2.0</title>
 <style>
-:root{--bg:#0b1020;--p:#121a2d;--p2:#19243c;--line:#2a3858;--txt:#f4f7fb;--mut:#a8b4ca;--a:#7c5cff;--g:#00d4a8;--r:#ff5d73}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#1b2750,#0b1020 42%);color:var(--txt);font:15px system-ui,-apple-system,Segoe UI,sans-serif}.app{display:flex;min-height:100vh}.side{width:260px;background:#090e1cdd;border-right:1px solid var(--line);padding:18px;position:sticky;top:0;height:100vh;overflow:auto}.brand{font-size:22px;font-weight:900}.brand b{color:var(--g)}.mut{color:var(--mut);font-size:12px}.nav{display:grid;gap:7px;margin-top:20px}.nav button{background:0;border:1px solid transparent;color:#ccd5e7;text-align:left;padding:10px;border-radius:10px}.nav button:hover,.nav button.on{background:var(--p2);border-color:var(--line);color:#fff}.prog{margin-top:20px;padding:12px;background:var(--p);border:1px solid var(--line);border-radius:12px}.bar{height:8px;background:#26314b;border-radius:9px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--g))}.main{max-width:1200px;width:100%;margin:auto;padding:28px}.sec{display:none}.sec.on{display:block}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}h1{font-size:36px;line-height:1.05;margin:5px 0 8px}h2{margin:0 0 10px}h3{margin:0 0 7px}p{line-height:1.55;color:#c8d2e5}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:14px}.card{background:#121a2df2;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 12px 30px #0002}.click:hover{transform:translateY(-2px);border-color:#566991}.badge{display:inline-block;padding:4px 8px;border-radius:99px;background:#26314b;color:#c9d3e5;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--a);color:#fff;font-weight:800}.btn.s{background:#27324c}.btn.g{background:#079b7d}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.q{font-size:22px;font-weight:850;line-height:1.35;margin:18px 0}.answers,.choices{display:grid;gap:9px}.answer,.choice{background:#151f35;border:1px solid var(--line);color:#fff;padding:13px;border-radius:11px;text-align:left}.answer:hover,.choice:hover{border-color:#6579a7}.ok{border-color:var(--g)!important;background:#00d4a812!important}.bad{border-color:var(--r)!important;background:#ff5d7312!important}.feed{margin-top:12px;background:#151f35;border:1px solid var(--line);padding:12px;border-radius:10px}.hidden{display:none}.flash{min-height:260px;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(145deg,#1d2948,#10182b);border:1px solid var(--line);border-radius:18px}.term{font-size:36px;font-weight:900}.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mi{padding:13px;background:#151f35;border:1px solid var(--line);border-radius:10px;cursor:pointer}.sel{border-color:var(--a)}.matched{border-color:var(--g);opacity:.55}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}input,textarea{width:100%;background:#0e1629;color:#fff;border:1px solid var(--line);padding:11px;border-radius:9px}label{color:var(--mut);font-size:12px}.sort{display:grid;gap:8px}.si{padding:11px;background:#151f35;border:1px solid var(--line);border-radius:9px;display:flex;justify-content:space-between}.si button{border:0;background:#293550;color:#fff;border-radius:6px}.case{white-space:pre-wrap;background:#0e1629;border:1px solid var(--line);padding:15px;border-radius:12px;line-height:1.6;color:#dce5f5}@media(max-width:800px){.side{display:none}.main{padding:16px}h1{font-size:29px}.match{grid-template-columns:1fr}}
-</style></head><body><div class="app"><aside class="side"><div class="brand">Marketing <b>Arcade</b></div><div class="mut">Repaso interactivo del parcial</div><div class="nav" id="nav"></div><div class="prog"><div class="mut">Precisión global</div><strong id="pct">0%</strong><div class="bar"><i id="bar"></i></div><div class="mut" id="stats">0 respuestas</div></div></aside><main class="main" id="main"></main></div>
+:root{--bg:#090e1a;--card:#121a2b;--card2:#17223a;--line:#2a3857;--txt:#f4f7ff;--muted:#aab6cb;--violet:#7c5cff;--green:#00cfa2;--red:#ff5d73;--yellow:#ffc857}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#1b2850 0,#090e1a 42%);color:var(--txt);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}.app{min-height:100vh;display:flex}
+aside{width:265px;position:fixed;left:0;top:0;bottom:0;overflow:auto;background:#080d18;border-right:1px solid var(--line);padding:20px;z-index:5}.logo{font-size:22px;font-weight:900;margin-bottom:4px}.logo b{color:var(--green)}.muted{color:var(--muted);font-size:13px}.nav{margin-top:22px;display:grid;gap:6px}.nav button{width:100%;border:1px solid transparent;background:transparent;color:#cbd5e7;text-align:left;padding:10px 11px;border-radius:10px;cursor:pointer}.nav button:hover,.nav button.active{background:var(--card2);border-color:var(--line);color:white}.meter{margin-top:20px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:14px}.bar{height:8px;background:#26324c;border-radius:20px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--green))}
+main{margin-left:265px;flex:1;padding:30px;max-width:1400px;width:100%;margin-right:auto}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}.homeLogo{font-size:48px;font-weight:950;letter-spacing:-2px;margin:5px 0 10px}.homeLogo span{color:var(--green)}h1{font-size:36px;line-height:1.05;margin:0 0 8px}h2{margin:0 0 10px}h3{margin:0 0 7px}p{color:#cbd5e5;line-height:1.55}.badge{display:inline-block;padding:5px 9px;background:#25304a;border:1px solid #334261;border-radius:99px;font-size:10px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:#cbd5e7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{background:rgba(18,26,43,.94);border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:0 12px 35px #0002}.click{cursor:pointer;transition:.15s}.click:hover{transform:translateY(-2px);border-color:#536487}.section{display:none}.section.active{display:block}.btn{border:0;border-radius:10px;background:var(--violet);color:white;font-weight:850;padding:11px 15px;cursor:pointer}.btn.secondary{background:#293650}.btn.green{background:#087f69}.btn.yellow{background:#a36b00}.btn:disabled{opacity:.45;cursor:not-allowed}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.question{font-size:22px;font-weight:850;line-height:1.35;margin:18px 0}.answers{display:grid;gap:9px}.answer,.choice{border:1px solid var(--line);background:#172239;color:#eef3fb;border-radius:11px;padding:13px;text-align:left;cursor:pointer}.answer:hover,.choice:hover{border-color:#63759d}.correct{border-color:var(--green)!important;background:#00cfa218!important}.wrong{border-color:var(--red)!important;background:#ff5d7318!important}.feedback{margin-top:13px;padding:13px;border-radius:11px;background:#101a2c;border:1px solid var(--line);line-height:1.55}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.input,textarea,select{width:100%;background:#0c1424;color:#fff;border:1px solid var(--line);border-radius:10px;padding:11px;outline:none}.input:focus,textarea:focus,select:focus{border-color:var(--violet)}textarea{resize:vertical}.sectionTabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}.classCard{min-height:190px}.classNum{font-size:12px;color:var(--green);font-weight:900}.topic{margin:5px 0;color:#dce4f2}.mini{font-size:12px;color:var(--muted)}.hidden{display:none!important}.case{white-space:pre-wrap;background:#0c1424;border:1px solid var(--line);padding:17px;border-radius:13px;line-height:1.6;color:#dfe7f5}.timer{font-size:21px;font-weight:950;font-variant-numeric:tabular-nums}.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}.match>div{display:grid;gap:8px}.matchItem{padding:13px;background:#172239;border:1px solid var(--line);border-radius:10px;cursor:pointer}.matchItem.sel{border-color:var(--violet)}.matchItem.done{border-color:var(--green);opacity:.55}.sort{display:grid;gap:8px}.sortItem{display:flex;justify-content:space-between;align-items:center;background:#172239;border:1px solid var(--line);border-radius:10px;padding:10px}.sortItem button{background:#2a3857;color:white;border:0;border-radius:6px;padding:5px 8px;cursor:pointer}.classMap{margin-top:20px}.footer{text-align:center;color:var(--muted);font-size:12px;margin:35px 0 10px}
+@media(max-width:800px){aside{position:static;width:100%;height:auto}.app{display:block}main{margin:0;padding:17px}.nav{grid-template-columns:repeat(2,1fr)}.homeLogo{font-size:38px}.match{grid-template-columns:1fr}.top{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="logo" onclick="goHome()" style="cursor:pointer">MARKETING <b>ARCADE</b></div>
+  <div class="muted">Repaso interactivo · Parcial</div>
+  <div class="nav" id="nav">
+    <button data-go="home" class="active">🏠 Menú principal</button>
+    <button data-go="quiz">🎯 Multiple Choice</button>
+    <button data-go="match">🔗 Unir definiciones</button>
+    <button data-go="fill">✍️ Completar</button>
+    <button data-go="flash">🃏 Flashcards</button>
+    <button data-go="tf">⚡ Verdadero/Falso</button>
+    <button data-go="order">🧩 Ordenar</button>
+    <button data-go="calc">🧮 Cálculos</button>
+    <button data-go="pestel">🌍 PESTEL</button>
+    <button data-go="vpc">🎯 VPC</button>
+    <button data-go="mix">🎛️ 4P Mix</button>
+    <button data-go="position">📢 Posicionamiento</button>
+    <button data-go="cases">🧠 Casos integradores</button>
+    <button data-go="rapid">🔥 Contrarreloj</button>
+  </div>
+  <div class="meter"><div class="muted">Precisión global</div><div id="pct" style="font-size:27px;font-weight:950;margin-top:2px">0%</div><div class="bar"><i id="bar"></i></div><div class="mini" id="stats">0 respuestas</div></div>
+</aside>
+
+<main>
+<section id="home" class="section active">
+  <div class="top">
+    <div>
+      <div class="badge">MARKETING · PARCIAL</div>
+      <div class="homeLogo">MARKETING <span>ARCADE</span> 🎮</div>
+      <p>Un centro de entrenamiento para repasar todo Marketing jugando, practicar casos y llegar al parcial con los conceptos automáticos.</p>
+      <div class="row"><button class="btn" onclick="go('quiz')">Empezar a practicar</button><button class="btn secondary" onclick="go('cases')">Ir a casos integradores</button></div>
+    </div>
+    <div class="card" style="min-width:190px"><div class="muted">Racha actual</div><div id="streak" style="font-size:32px;font-weight:950">0 🔥</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card click" onclick="go('quiz')"><h3>🎯 Multiple Choice</h3><p>Preguntas de conceptos, aplicación y casos.</p></div>
+    <div class="card click" onclick="go('match')"><h3>🔗 Unir definiciones</h3><p>Concepto ↔ definición para memorizar rápido.</p></div>
+    <div class="card click" onclick="go('calc')"><h3>🧮 Cálculos</h3><p>TAM/SAM/SOM, penetración, funnel, leakage y NPS.</p></div>
+    <div class="card click" onclick="go('cases')"><h3>🧠 Casos integradores</h3><p>Situaciones nuevas donde tenés que conectar varios conceptos.</p></div>
+  </div>
+
+  <div class="classMap card">
+    <h2>📚 ¿Qué contiene cada clase?</h2>
+    <p class="mini">Mapa de estudio armado con la estructura del curso y los conceptos/casos del material de repaso. Los casos trabajados incluyen Beyond Meat, Ontela, Lemonade, McDonald's, Red Bull, Potrero Box y Spotify. fileciteturn18file0</p>
+    <div class="grid">
+      <div class="card classCard"><div class="classNum">CLASE 1 · UNIDAD 1</div><h3>Fundamentos + Modelos de negocio</h3><div class="topic">5C · Marketing Myopia · Customer-centricity · 4P</div><div class="mini">Caso: Beyond Meat</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 2 · UNIDAD 2</div><h3>Investigación + Modelos de compra</h3><div class="topic">Cualitativa · cuantitativa · personas · cluster · B2C · B2B · B2B2C</div><div class="mini">Caso: Ontela</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 3 · UNIDAD 3.1</div><h3>Métricas + Demanda</h3><div class="topic">TAM · SAM · SOM · penetración · top-down · bottom-up</div><div class="mini">Caso: Potrero Box</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 4 · UNIDAD 3.1</div><h3>Segmentación + Targeting</h3><div class="topic">Demográfica · psicográfica · actitudinal · conductual · CLV · RFM · no-consumo</div><div class="mini">Caso: Lemonade</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 5 · UNIDAD 3.2</div><h3>Posicionamiento + Propuesta de valor</h3><div class="topic">VPC · Jobs · Pains · Gains · Products · Pain Relievers · Gain Creators</div><div class="mini">Caso: Red Bull VÉRTIGO</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 6 · UNIDAD 3.3</div><h3>Marketing estratégico + Entorno</h3><div class="topic">PESTEL · competencia · ventaja competitiva · switching costs · network effects · crisis</div><div class="mini">Caso: McDonald's</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 7 · UNIDAD 4</div><h3>Marketing Mix + Portfolio</h3><div class="topic">4P · coherencia · integración · apalancamiento · triple ajuste · portfolio · cannibalización</div><div class="mini">Caso: Spotify</div></div>
+      <div class="card classCard"><div class="classNum">CLASE 8 · UNIDAD 4</div><h3>Branding + Arquitectura de marca</h3><div class="topic">Branded House · House of Brands · extensión de rango · dilución · cannibalización</div><div class="mini">Aplicación sobre portfolio y marca</div></div>
+    </div>
+  </div>
+  <div class="footer">Consejo: alterná conceptos rápidos con casos. El parcial puede exigir identificar, calcular y justificar.</div>
+</section>
+
+<section id="quiz" class="section">
+  <div class="top"><div><div class="badge">MODO 1</div><h1>Multiple Choice 🎯</h1><p>Banco amplio de preguntas. Cada ronda mezcla unidades.</p></div><div class="timer" id="quizTimer">∞</div></div>
+  <div class="card"><div class="muted" id="quizCount"></div><div class="question" id="quizQ"></div><div class="answers" id="quizA"></div><div id="quizF"></div><div class="row" style="margin-top:14px"><button class="btn" id="quizNext" disabled>Siguiente</button><button class="btn secondary" id="quizRestart">Reiniciar ronda</button></div></div>
+</section>
+
+<section id="match" class="section">
+  <div class="top"><div><div class="badge">MODO 2</div><h1>Unir definiciones 🔗</h1><p>Hay 8 parejas por ronda. Seleccioná izquierda y derecha.</p></div></div>
+  <div class="card"><div class="muted" id="matchScore"></div><div class="match"><div id="matchL"></div><div id="matchR"></div></div><div id="matchF"></div><button class="btn secondary" style="margin-top:14px" id="matchNew">Nueva ronda</button></div>
+</section>
+
+<section id="fill" class="section">
+  <div class="top"><div><div class="badge">MODO 3</div><h1>Completá ✍️</h1><p>Escribí el término exacto o una variante válida.</p></div></div>
+  <div class="card"><div class="muted" id="fillCount"></div><div class="question" id="fillQ"></div><input class="input" id="fillInput" placeholder="Tu respuesta"><div class="row" style="margin-top:12px"><button class="btn" id="fillCheck">Corregir</button><button class="btn secondary" id="fillNext">Siguiente</button></div><div id="fillF"></div></div>
+</section>
+
+<section id="flash" class="section">
+  <div class="top"><div><div class="badge">MODO 4</div><h1>Flashcards 🃏</h1><p>Definí el concepto antes de revelar la respuesta.</p></div></div>
+  <div class="card" style="text-align:center;padding:35px"><div class="muted">CONCEPTO</div><div id="flashTerm" style="font-size:40px;font-weight:950;margin:20px 0"></div><div id="flashDef" class="feedback hidden"></div><div class="row" style="justify-content:center"><button class="btn" id="flashReveal">Revelar</button><button class="btn secondary" id="flashNext">Otra</button></div></div>
+</section>
+
+<section id="tf" class="section">
+  <div class="top"><div><div class="badge">MODO 5</div><h1>Verdadero / Falso ⚡</h1><p>Ojo con las trampas de formulación.</p></div></div>
+  <div class="card"><div class="muted" id="tfCount"></div><div class="question" id="tfQ"></div><div class="grid"><button class="choice" id="tfTrue">VERDADERO</button><button class="choice" id="tfFalse">FALSO</button></div><div id="tfF"></div><button class="btn secondary" style="margin-top:14px" id="tfNext">Siguiente</button></div>
+</section>
+
+<section id="order" class="section">
+  <div class="top"><div><div class="badge">MODO 6</div><h1>Ordená 🧩</h1><p>Mové los elementos hasta formar el proceso correcto.</p></div></div>
+  <div class="card"><h3 id="orderTitle"></h3><div class="sort" id="sort"></div><div class="row" style="margin-top:14px"><button class="btn" id="orderCheck">Comprobar</button><button class="btn secondary" id="orderNew">Nuevo</button></div><div id="orderF"></div></div>
+</section>
+
+<section id="calc" class="section">
+  <div class="top"><div><div class="badge">MODO 7</div><h1>Laboratorio de números 🧮</h1><p>Entrená exactamente las cuentas que pueden aparecer en un caso.</p></div></div>
+  <div class="grid">
+    <div class="card"><h2>TAM → SAM → SOM</h2><div class="formgrid"><input class="input" id="tam" type="number" placeholder="TAM" value="800000"><input class="input" id="samPct" type="number" placeholder="% SAM sobre TAM" value="25"><input class="input" id="somPct" type="number" placeholder="% SOM sobre SAM" value="5"><input class="input" id="cur" type="number" placeholder="Clientes actuales" value="5000"></div><button class="btn" style="margin-top:12px" id="calcMarket">Calcular</button><div class="feedback" id="marketR"></div></div>
+    <div class="card"><h2>Brand Funnel</h2><div class="formgrid"><input class="input" id="f1" type="number" value="40000"><input class="input" id="f2" type="number" value="32000"><input class="input" id="f3" type="number" value="20000"><input class="input" id="f4" type="number" value="10000"><input class="input" id="f5" type="number" value="7000"><input class="input" id="f6" type="number" value="5600"></div><button class="btn" style="margin-top:12px" id="calcFunnel">Calcular</button><div class="feedback" id="funnelR"></div></div>
+    <div class="card"><h2>NPS</h2><div class="formgrid"><input class="input" id="prom" type="number" value="65" placeholder="Promotores %"><input class="input" id="det" type="number" value="15" placeholder="Detractores %"></div><button class="btn" style="margin-top:12px" id="calcNps">Calcular</button><div class="feedback" id="npsR"></div></div>
+  </div>
+</section>
+
+<section id="pestel" class="section">
+  <div class="top"><div><div class="badge">MODO 8</div><h1>PESTEL Challenge 🌍</h1><p>Primero clasificá el factor. Después pensá amenaza/oportunidad.</p></div></div>
+  <div class="card"><div class="question" id="peQ"></div><div class="grid" id="peA"></div><div id="peF"></div><button class="btn secondary" style="margin-top:14px" id="peNext">Siguiente</button></div>
+</section>
+
+<section id="vpc" class="section">
+  <div class="top"><div><div class="badge">MODO 9</div><h1>VPC Builder 🎯</h1><p>Identificá dónde encaja cada frase.</p></div></div>
+  <div class="card"><div class="question" id="vpcQ"></div><div class="grid" id="vpcA"></div><div id="vpcF"></div><button class="btn secondary" style="margin-top:14px" id="vpcNext">Siguiente</button></div>
+</section>
+
+<section id="mix" class="section">
+  <div class="top"><div><div class="badge">MODO 10</div><h1>4P Mix Lab 🎛️</h1><p>Product, Price, Place, Promotion + coherencia, integración y apalancamiento.</p></div></div>
+  <div class="card"><div class="question" id="mixQ"></div><div class="grid" id="mixA"></div><div id="mixF"></div><button class="btn secondary" style="margin-top:14px" id="mixNext">Siguiente</button></div>
+</section>
+
+<section id="position" class="section">
+  <div class="top"><div><div class="badge">MODO 11</div><h1>Positioning Lab 📢</h1><p>Construí tu statement con los 4 componentes del material.</p></div></div>
+  <div class="card"><div class="formgrid"><label class="muted">Mercado objetivo<input class="input" id="pt" placeholder="¿Para quién?"></label><label class="muted">Conjunto competitivo<input class="input" id="pc" placeholder="¿Frente a quién?"></label><label class="muted">Valor<input class="input" id="pv" placeholder="¿Qué valor ofrecés?"></label><label class="muted">Evidencia<input class="input" id="pe" placeholder="¿Qué lo demuestra?"></label></div><button class="btn" style="margin-top:14px" id="posBuild">Construir</button><div class="feedback" id="posR"></div></div>
+</section>
+
+<section id="cases" class="section">
+  <div class="top"><div><div class="badge">MODO 12</div><h1>Casos integradores 🧠</h1><p>Acá entrenás como si estuvieras frente a una hoja de parcial.</p></div></div>
+  <div class="sectionTabs" id="caseTabs"></div>
+  <div class="card"><h2 id="caseTitle"></h2><div class="case" id="caseText"></div><div style="margin-top:15px"><label class="muted">Tu respuesta<textarea id="caseAnswer" rows="12" placeholder="Identificá conceptos, explicá por qué aplican, hacé cuentas si corresponde y conectá las decisiones."></textarea></label><div class="row" style="margin-top:10px"><button class="btn" id="caseRubric">Corrección automática</button><button class="btn green" id="caseCopy">Copiar para corregir con IA</button><button class="btn secondary" id="caseOpen">Abrir ChatGPT con el caso</button></div><div id="caseR"></div></div></div>
+  <div class="card" style="margin-top:14px"><h3>🤖 ¿Cómo funciona la corrección con IA?</h3><p>La página no necesita una API ni una clave privada. El botón <strong>Copiar para corregir con IA</strong> arma un prompt completo con el caso y tu respuesta; después lo pegás en ChatGPT y podés pedir una corrección con nota, conceptos faltantes y modelo de respuesta. También tenés el botón para abrir ChatGPT.</p></div>
+</section>
+
+<section id="rapid" class="section">
+  <div class="top"><div><div class="badge">MODO 13</div><h1>Contrarreloj 🔥</h1><p>60 segundos. 10 preguntas. La velocidad también se entrena.</p></div><div class="timer" id="rapidT">60</div></div>
+  <div class="card"><div class="question" id="rapidQ">Apretá empezar.</div><div class="answers" id="rapidA"></div><div id="rapidF"></div><button class="btn" id="rapidStart">Empezar</button></div>
+</section>
+</main></div>
+
 <script>
-const M=[
-['🎯','Multiple Choice','mcq'],['🔗','Unir conceptos','match'],['✍️','Completar','fill'],['🃏','Cartas','flash'],['⚡','Verdadero/Falso','tf'],['🧩','Ordenar','order'],['🧮','Calculadoras','calc'],['🌍','PESTEL Challenge','pestel'],['🎯','VPC Builder','vpc'],['🎛️','4P Mix Lab','mix'],['📢','Positioning Lab','position'],['🧠','Case Challenge','case'],['🔥','Contrarreloj','rapid']];
-const D={
-mcq:[
-['¿Qué es la miopía de marketing?',['Definir el negocio por la necesidad','Definirlo por el producto y no por la necesidad real','Segmentar por edad','Subir promoción'],1,'El error es confundir el producto con la necesidad real.'],
-['¿Qué significa SAM?',['Todo el mercado','Parte a la que realmente podés llegar/atender','Lo que capturás','Penetración'],1,'TAM=todo; SAM=alcanzable; SOM=capturado.'],
-['¿Qué fórmula de penetración usamos?',['Clientes/TAM','Clientes/SAM ×100','SOM/TAM','SAM/SOM'],1,'Penetración = clientes actuales ÷ SAM ×100.'],
-['¿Qué pertenece al Customer Profile del VPC?',['Jobs, Pains, Gains','Products, Pain Relievers, Gain Creators','4P','PESTEL'],0,'Customer Profile = Jobs/Pains/Gains.'],
-['¿Dónde priorizarías la acción en Brand Funnel?',['Mayor cantidad','Siempre Awareness','Menor conversión/mayor leakage','Siempre Loyalty'],2,'Se ataca el eslabón más débil.'],
-['NPS =',['Promotores + Detractores','Promotores − Detractores','Detractores − Promotores','Promotores × Detractores'],1,'NPS = % Promotores − % Detractores.'],
-['Branded House es:',['Marcas independientes','Una marca madre para múltiples productos','Sin marca','Una marca por canal'],1,'Una marca → múltiples productos/servicios.'],
-['Cannibalización es:',['Competidor baja precio','Un producto propio quita ventas a otro propio','Sube TAM','Sube awareness'],1,'La nueva oferta captura ventas de otra oferta propia.'],
-['Triple ajuste del mix:',['Producto, precio, plaza','Cliente, compañía, competencia','TAM, SAM, SOM','Marca, canal, promoción'],1,'Antes de mover una palanca: cliente, compañía y competencia.'],
-['Segmentación vs targeting:',['Son iguales','Segmentación divide; targeting elige','Segmentación elige; targeting divide','Targeting es solo edad'],1,'Segmentar=dividir; targeting=elegir.'],
-['En B2B2C:',['Usuario y comprador siempre son iguales','Usuario final y comprador directo pueden ser distintos','No hay intermediario','Solo existe B2B'],1,'Ontela vende a operadoras y el suscriptor usa el servicio.'],
-['¿Qué es un Pain Reliever?',['Una necesidad','Algo que reduce un dolor del cliente','Un producto siempre','Una métrica'],1,'En VPC, reduce un Pain identificado.'] ],
-fill:[
-['TAM = todo; SAM = parte a la que puedo ________; SOM = lo que puedo ________.','llegar / capturar',['llegar','atender']],
-['Las 4P son Product, Price, Place y ________.','Promotion',['promotion']],
-['PESTEL termina en ________.','Legal',['legal']],
-['Jobs / Pains / Gains pertenecen al ________ Profile.','Customer',['customer']],
-['Leakage = 1 − tasa de ________.','conversión',['conversion','conversión']],
-['NPS = % Promotores − % ________.','Detractores',['detractores']],
-['Segmentar es ________; targeting es ________.','dividir / elegir',['dividir']],
-['Un producto propio que le quita ventas a otro propio genera ________.','cannibalización',['cannibalizacion','cannibalización']]],
-tf:[
-['El SOM depende solo del tamaño del mercado.',false,'También depende de capacidad y ejecución.'],['En B2B2C usuario y comprador pueden ser distintos.',true,'Es el punto central del caso Ontela.'],['El mayor leakage siempre está en la etapa con menos personas.',false,'Se compara la conversión entre transiciones.'],['Las 4P deben funcionar como sistema.',true,'Coherencia, integración y apalancamiento.'],['House of Brands usa una única marca madre.',false,'Eso es Branded House.'],['Todo factor PESTEL es una amenaza.',false,'Puede ser oportunidad o amenaza según el impacto.'],['RFM significa Recency, Frequency, Monetary.',true,'Es el marco trabajado en segmentación/valoración.'],['La miopía consiste en centrarse demasiado en la necesidad real.',false,'Consiste en definir el negocio por producto y no por necesidad.']],
-pestel:[['Nueva regulación obligatoria de etiquetado.','Legal'],['Inflación reduce disposición a pagar premium.','Economic'],['Crece preocupación juvenil por comer saludable.','Social'],['Tecnología reduce tiempos de entrega.','Technological'],['Mayores exigencias sobre residuos de envases.','Environmental'],['Nueva política pública afecta al sector.','Political']],
-vpc:[['“Necesito resolver mi almuerzo sin cocinar.”','Job'],['“Me molesta que sea demasiado caro.”','Pain'],['“Quiero comer mejor sin perder practicidad.”','Gain'],['“Comidas listas para consumir.”','Product'],['“Delivery rápido que evita cocinar.”','Pain Reliever'],['“Oferta saludable, práctica y rica.”','Gain Creator']],
-mix:[['Cambiar receta y formato del producto.','Product'],['Lanzar 20% de descuento.','Price'],['Agregar delivery/app.','Place'],['Campaña con influencers.','Promotion'],['Las 4P cuentan la misma historia.','Coherencia'],['Una P alimenta a otra.','Integración'],['Una P potencia a las demás.','Apalancamiento'],['Antes de subir precio se analiza cliente, empresa y competencia.','Triple ajuste']],
-order:[['Brand Funnel',['Awareness','Familiarity','Consideration','Trial','Repurchase','Loyalty']],['TAM/SAM/SOM',['TAM','SAM','SOM']],['STP',['Segmentación','Targeting','Posicionamiento']],['VPC Customer Profile',['Jobs','Pains','Gains']]]};
-let S=JSON.parse(localStorage.getItem('ma')||'{}');S.ok??=0;S.n??=0;S.streak??=0;
-function save(){localStorage.setItem('ma',JSON.stringify(S));let p=S.n?Math.round(S.ok/S.n*100):0;document.getElementById('pct').textContent=p+'%';document.getElementById('bar').style.width=p+'%';document.getElementById('stats').textContent=S.n+' respuestas · racha '+S.streak}
-function mark(ok){S.n++;ok?(S.ok++,S.streak++):S.streak=0;save()}
-function nav(){document.getElementById('nav').innerHTML=M.map(x=>`<button onclick="go('${x[2]}',this)">${x[0]} ${x[1]}</button>`).join('')}
-function go(id,b){document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));document.getElementById(id).classList.add('on');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b?.classList.add('on');if(window.init?.[id])window.init[id]()}
-function home(){document.getElementById('main').innerHTML=`<section id="home" class="sec on"><div class="top"><div><span class="badge">MARKETING · PARCIAL</span><h1>Marketing Arcade 🎮</h1><p>Una página para repasar jugando: conceptos, definiciones, cálculos, casos y velocidad.</p></div><div class="card"><div class="mut">Precisión</div><h2 id="hp">${S.n?Math.round(S.ok/S.n*100):0}%</h2></div></div><div class="grid">${M.slice(0,12).map(x=>`<div class="card click" onclick="go('${x[2]}',document.querySelectorAll('.nav button')[${M.indexOf(x)}])"><span class="badge">${x[0]}</span><h3>${x[1]}</h3><p>Entrená este tema con feedback inmediato.</p></div>`).join('')}</div><div class="card" style="margin-top:14px"><h2>Mapa del parcial</h2><div class="grid"><p><b>Fundamentos:</b> miopía, 5C, customer-centricity, 4P.</p><p><b>Investigación:</b> cualitativa, cuantitativa, personas, clusters, B2B2C.</p><p><b>Dimensionamiento:</b> TAM/SAM/SOM, penetración, top-down/bottom-up.</p><p><b>STP:</b> segmentación, targeting, CLV, RFM, no-consumption.</p><p><b>Valor:</b> VPC, Jobs/Pains/Gains, posicionamiento.</p><p><b>Estratégico:</b> PESTEL, competencia, ventajas, switching costs, network effects.</p><p><b>Marca:</b> Brand Funnel, leakage, NPS, arquitectura.</p><p><b>Mix:</b> 4P, coherencia, integración, apalancamiento, portfolio.</p></div></div></section>`}
-function shell(id,title,sub){document.getElementById('main').innerHTML=`<section id="${id}" class="sec on"><div class="top"><div><span class="badge">MARKETING ARCADE</span><h1>${title}</h1><p>${sub}</p></div></div><div id="body" class="card"></div></section>`}
-let init={};window.init=init;
-init.mcq=()=>{shell('mcq','Multiple Choice 🎯','Preguntas mezcladas de todo el programa.');let i=0;let body=document.getElementById('body');function r(){let x=D.mcq[i%D.mcq.length];body.innerHTML=`<div class="mut">Pregunta ${i+1}/${D.mcq.length}</div><div class="q">${x[0]}</div><div class="answers">${x[1].map((a,j)=>`<button class="answer" data-j="${j}">${String.fromCharCode(65+j)}. ${a}</button>`).join('')}</div><div id="f"></div><div class="row" style="margin-top:12px"><button class="btn s" id="next" disabled>Siguiente</button></div>`;body.querySelectorAll('.answer').forEach(b=>b.onclick=()=>{if(body.dataset.done)return;body.dataset.done=1;let j=+b.dataset.j,ok=j===x[2];body.querySelectorAll('.answer').forEach((z,k)=>{if(k===x[2])z.classList.add('ok');if(k===j&&!ok)z.classList.add('bad')});mark(ok);document.getElementById('f').innerHTML=`<div class="feed">${ok?'✅ Correcto':'❌ Incorrecto'} — ${x[3]}</div>`;document.getElementById('next').disabled=false});body.querySelector('#next').onclick=()=>{i++;body.dataset.done='';r()}}r()};
-init.fill=()=>{shell('fill','Completá ✍️','Escribí el concepto que falta.');let i=0,b=document.getElementById('body');function r(){let x=D.fill[i%D.fill.length];b.innerHTML=`<div class="mut">${i+1}/${D.fill.length}</div><div class="q">${x[0]}</div><input id="ans" placeholder="Tu respuesta..."><div class="row" style="margin-top:12px"><button class="btn" id="ck">Corregir</button><button class="btn s" id="nx">Siguiente</button></div><div id="f"></div>`;b.querySelector('#ck').onclick=()=>{if(b.dataset.done)return;b.dataset.done=1;let v=b.querySelector('#ans').value.toLowerCase().trim(),ok=x[2].some(a=>v===a||v.includes(a));mark(ok);b.querySelector('#f').innerHTML=`<div class="feed">${ok?'✅ Correcto':'❌ Revisá'} — ${x[1]}</div>`};b.querySelector('#nx').onclick=()=>{i++;b.dataset.done='';r()}}r()};
-init.tf=()=>{shell('tf','Verdadero / Falso ⚡','Respondé y mirá la explicación.');let i=0,b=document.getElementById('body');function r(){let x=D.tf[i%D.tf.length];b.innerHTML=`<div class="mut">${i+1}/${D.tf.length}</div><div class="q">${x[0]}</div><div class="choices"><button class="choice" id="t">VERDADERO</button><button class="choice" id="f">FALSO</button></div><div id="out"></div><button class="btn s" id="nx" style="margin-top:12px">Siguiente</button>`;['t','f'].forEach(id=>b.querySelector('#'+id).onclick=()=>{if(b.dataset.done)return;b.dataset.done=1;let v=id==='t',ok=v===x[1];mark(ok);b.querySelector('#out').innerHTML=`<div class="feed">${ok?'✅ Correcto':'❌ Incorrecto'} — ${x[2]}</div>`});b.querySelector('#nx').onclick=()=>{i++;b.dataset.done='';r()}}r()};
-init.flash=()=>{shell('flash','Cartas de memoria 🃏','Intentá definir antes de revelar.');let i=0,b=document.getElementById('body');function r(){let x=D.mcq[i%D.mcq.length];b.innerHTML=`<div class="flash"><div><div class="mut">CONCEPTO</div><div class="term">${x[0]}</div><p id="def" class="hidden">${x[3]}</p></div></div><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="rv">Revelar</button><button class="btn s" id="nx">Otra carta</button></div>`;b.querySelector('#rv').onclick=()=>b.querySelector('#def').classList.remove('hidden');b.querySelector('#nx').onclick=()=>{i++;r()}}r()};
-init.match=()=>{shell('match','Unir conceptos 🔗','Elegí un concepto y después su definición.');let b=document.getElementById('body'),pairs=D.mcq.slice(0,6).map((x,i)=>({id:i,a:x[0].replace(/[¿?]/g,''),d:x[3]}));pairs.sort(()=>Math.random()-.5);let left=[...pairs].sort(()=>Math.random()-.5),right=[...pairs].sort(()=>Math.random()-.5),lt=null,rd=null,done={};function r(){b.innerHTML=`<div class="match"><div>${left.map(x=>`<div class="mi ${done[x.id]?'matched':''} ${lt===x.id?'sel':''}" data-l="${x.id}">${x.a}</div>`).join('')}</div><div>${right.map(x=>`<div class="mi ${done[x.id]?'matched':''} ${rd===x.id?'sel':''}" data-r="${x.id}">${x.d}</div>`).join('')}</div></div><div id="f"></div><button class="btn s" id="new" style="margin-top:12px">Nueva ronda</button>`;b.querySelectorAll('[data-l]').forEach(z=>z.onclick=()=>{lt=+z.dataset.l;r()});b.querySelectorAll('[data-r]').forEach(z=>z.onclick=()=>{rd=+z.dataset.r;if(lt!==null){let ok=lt===rd;mark(ok);b.querySelector('#f').innerHTML=`<div class="feed">${ok?'✅ Pareja correcta':'❌ No coinciden'}</div>`;if(ok)done[lt]=1;lt=rd=null;r()}});b.querySelector('#new').onclick=()=>{location.reload()}}r()};
-init.order=()=>{shell('order','Ordená el proceso 🧩','Usá las flechas para ponerlo en orden.');let i=0,b=document.getElementById('body');function r(){let x=D.order[i%D.order.length],a=[...x[1]].sort(()=>Math.random()-.5);b.innerHTML=`<h2>${x[0]}</h2><div class="sort">${a.map((v,j)=>`<div class="si"><span>${j+1}. ${v}</span><span><button data-i="${j}" data-d="-1">↑</button> <button data-i="${j}" data-d="1">↓</button></span></div>`).join('')}</div><div id="f"></div><div class="row" style="margin-top:12px"><button class="btn" id="check">Comprobar</button><button class="btn s" id="next">Nuevo</button></div>`;let items=[...b.querySelectorAll('.si')];b.querySelectorAll('button[data-i]').forEach(z=>z.onclick=()=>{let j=+z.dataset.i,k=j+ +z.dataset.d;if(k<0||k>=a.length)return;[a[j],a[k]]=[a[k],a[j]];r()});b.querySelector('#check').onclick=()=>{let ok=a.join('|')===x[1].join('|');mark(ok);b.querySelector('#f').innerHTML=`<div class="feed">${ok?'✅ Perfecto':'❌ Todavía no'} </div>`};b.querySelector('#next').onclick=()=>{i++;r()}}r()};
-init.calc=()=>{shell('calc','Calculadoras 🧮','TAM/SAM/SOM, penetración, Brand Funnel y NPS.');document.getElementById('body').innerHTML=`<div class="grid"><div class="card"><h2>TAM / SAM / SOM</h2><div class="form"><input id="tam" type="number" value="800000" placeholder="TAM"><input id="sp" type="number" value="25" placeholder="% SAM/TAM"><input id="op" type="number" value="5" placeholder="% SOM/SAM"><input id="cur" type="number" value="5000" placeholder="Clientes actuales"></div><button class="btn" id="cm" style="margin-top:10px">Calcular</button><div id="mr" class="feed"></div></div><div class="card"><h2>Brand Funnel</h2><div class="form">${[1,2,3,4,5,6].map((n,i)=>`<input id="f${n}" type="number" value="${[40000,32000,20000,10000,7000,5600][i]}" placeholder="Etapa ${n}">`).join('')}</div><button class="btn" id="cf" style="margin-top:10px">Calcular</button><div id="fr" class="feed"></div></div><div class="card"><h2>NPS</h2><div class="form"><input id="pr" type="number" value="65" placeholder="Promotores %"><input id="de" type="number" value="15" placeholder="Detractores %"></div><button class="btn" id="cn" style="margin-top:10px">Calcular</button><div id="nr" class="feed"></div></div></div>`;document.getElementById('cm').onclick=()=>{let t=+tam.value,s=t*+sp.value/100,o=s*+op.value/100,p=+cur.value/s*100;mr.innerHTML=`TAM <b>${t.toLocaleString()}</b><br>SAM <b>${s.toLocaleString()}</b><br>SOM <b>${o.toLocaleString()}</b><br>Penetración <b>${p.toFixed(2)}%</b>`};document.getElementById('cf').onclick=()=>{let a=[1,2,3,4,5,6].map(n=>+document.getElementById('f'+n).value),names=['Awareness→Familiarity','Familiarity→Consideration','Consideration→Trial','Trial→Repurchase','Repurchase→Loyalty'];let c=names.map((n,i)=>a[i+1]/a[i]*100);fr.innerHTML=c.map((v,i)=>`${names[i]}: <b>${v.toFixed(1)}%</b> conv · ${(100-v).toFixed(1)}% leakage`).join('<br>')+`<hr>Principal fuga: <b>${names[c.indexOf(Math.min(...c))]}</b>`};document.getElementById('cn').onclick=()=>nr.innerHTML=`NPS = <b>${+pr.value-+de.value}</b>`};
-init.pestel=()=>simple('pestel','PESTEL Challenge 🌍','Clasificá el factor.',D.pestel,['Political','Economic','Social','Technological','Environmental','Legal']);
-init.vpc=()=>simple('vpc','VPC Builder 🎯','Clasificá la frase.',D.vpc,['Job','Pain','Gain','Product','Pain Reliever','Gain Creator']);
-init.mix=()=>simple('mix','4P Mix Lab 🎛️','Identificá la P o el concepto del mix.',D.mix,['Product','Price','Place','Promotion','Coherencia','Integración','Apalancamiento','Triple ajuste']);
-function simple(id,title,sub,arr,opts){shell(id,title,sub);let i=0,b=document.getElementById('body');function r(){let x=arr[i%arr.length];b.innerHTML=`<div class="q">${x[0]}</div><div class="choices">${opts.map(o=>`<button class="choice">${o}</button>`).join('')}</div><div id="f"></div><button class="btn s" id="n" style="margin-top:12px">Siguiente</button>`;b.querySelectorAll('.choice').forEach(z=>z.onclick=()=>{if(b.dataset.done)return;b.dataset.done=1;let ok=z.textContent===x[1];mark(ok);b.querySelector('#f').innerHTML=`<div class="feed">${ok?'✅ Correcto':'❌ Incorrecto'} — Respuesta: <b>${x[1]}</b></div>`});b.querySelector('#n').onclick=()=>{i++;b.dataset.done='';r()}}r()}
-init.position=()=>{shell('position','Positioning Lab 📢','Construí un statement con los 4 componentes.');let b=document.getElementById('body');b.innerHTML=`<div class="form"><label>Customer target<input id="pt" placeholder="¿Para quién?"></label><label>Need<input id="pn" placeholder="¿Qué necesita?"></label><label>Benefit<input id="pb" placeholder="¿Qué beneficio recibe?"></label><label>Differentiation<input id="pd" placeholder="¿Por qué vos?"></label></div><button class="btn" id="build" style="margin-top:12px">Construir</button><div id="prr" class="feed"></div>`;b.querySelector('#build').onclick=()=>prr.innerHTML=`Para <b>${pt.value}</b>, que necesita <b>${pn.value}</b>, ofrecemos <b>${pb.value}</b>, diferenciándonos por <b>${pd.value}</b>.`};
-init.case=()=>{shell('case','Case Challenge 🧠','Identificá → explicá → aplicá, como en el parcial.');document.getElementById('body').innerHTML=`<div class="case">NOVA BOX vende comidas listas para consumir mediante una app. Empezó enfocándose en personas que entrenan, pero también crece entre estudiantes y jóvenes profesionales. Entrega en CABA y algunas zonas del GBA. Tiene una línea premium y evalúa lanzar una económica para estudiantes. Sus competidores directos ofrecen productos similares a menor precio. Es muy conocida entre deportistas, pero poco conocida entre estudiantes. La dirección propone: “Subamos el precio de Premium y usemos la línea económica para capturar estudiantes”.</div><p><b>Consigna:</b> analizá la decisión usando al menos 6 conceptos del curso.</p><textarea id="ca" rows="9" placeholder="Escribí tu análisis..."></textarea><button class="btn" id="ev" style="margin-top:10px">Evaluar checklist</button><div id="cfb" class="feed"></div>`;document.getElementById('ev').onclick=()=>{let t=ca.value.toLowerCase(),ks=['cliente','competencia','segment','target','precio','mix','propuesta','pestel','brand','tam','sam','som','posicion'];let hit=ks.filter(k=>t.includes(k)).length;cfb.innerHTML=`Detecté <b>${hit}/${ks.length}</b> áreas relevantes. ${hit>=7?'🔥 Muy completo':'🟡 Buscá conectar más conceptos con la decisión.'}<br><span class="mut">Importante: no alcanza con nombrar conceptos; explicá qué información usarías y cómo cambia la decisión.</span>`}};
-init.rapid=()=>{shell('rapid','Contrarreloj 🔥','10 preguntas en 60 segundos.');let b=document.getElementById('body');let i=0,score=0,time=60,timer;function start(){clearInterval(timer);i=0;score=0;time=60;r();timer=setInterval(()=>{time--;document.getElementById('clock').textContent=time;if(time<=0){clearInterval(timer);b.innerHTML=`<h2>Tiempo ⏱️</h2><div class="q">Resultado: ${score}/10</div><button class="btn" id="again">Otra vez</button>`;document.getElementById('again').onclick=start}},1000)}function r(){let x=D.mcq[i%10];b.innerHTML=`<div class="mut" id="clock">${time}</div><div class="q">${x[0]}</div><div class="answers">${x[1].map((a,j)=>`<button class="answer" data-j="${j}">${a}</button>`).join('')}</div>`;b.querySelectorAll('.answer').forEach(z=>z.onclick=()=>{let ok=+z.dataset.j===x[2];mark(ok);if(ok)score++;i++;i>=10?(clearInterval(timer),b.innerHTML=`<h2>Terminaste 🔥</h2><div class="q">${score}/10</div><button class="btn" id="again">Otra vez</button>`,document.getElementById('again').onclick=start):r()})}b.innerHTML='<h2>¿Listo?</h2><p>Tenés 60 segundos.</p><button class="btn" id="start">Empezar</button>';document.getElementById('start').onclick=start};
-function boot(){nav();home();save()}boot();
-</script></body></html>
+const $=id=>document.getElementById(id);
+let S=JSON.parse(localStorage.getItem("mktArcade2")||'{"ok":0,"tries":0,"streak":0}');
+function save(){localStorage.setItem("mktArcade2",JSON.stringify(S));updateStats()}
+function score(ok){S.tries++;ok?(S.ok++,S.streak++):S.streak=0;save()}
+function updateStats(){let p=S.tries?Math.round(S.ok/S.tries*100):0;$("pct").textContent=p+"%";$("bar").style.width=p+"%";$("stats").textContent=S.tries+" respuestas · "+S.ok+" correctas";$("streak").textContent=S.streak+" 🔥"}
+function go(id){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.go===id));window.scrollTo({top:0,behavior:"smooth"})}
+function goHome(){go("home")}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.go));
+updateStats();
+
+const MCQ=[
+["¿Qué es miopía de marketing?",["Definir por necesidad","Definir por producto y no por necesidad","Segmentar por edad","Subir precios"],1,"El error es mirar lo que producís en vez de la necesidad real."],
+["En 5C, ¿qué es Collaborators?",["Clientes","Actores que ayudan a entregar valor","Competidores","Factores legales"],1,""],
+["En B2B2C...",["Usuario y comprador siempre son iguales","Usuario final y comprador directo pueden ser distintos","No hay intermediario","Es solo B2B"],1,"Ontela trabaja justamente esa diferencia."],
+["SAM significa...",["Todo el mercado","Parte realmente alcanzable/atendible","Lo capturado","Penetración"],1,"TAM = todo; SAM = alcanzable; SOM = capturado."],
+["Penetración trabajada en clase...",["Clientes/TAM","Clientes/SAM ×100","SOM/TAM","SAM/SOM"],1,""],
+["¿Cuál NO es Customer Profile del VPC?",["Jobs","Pains","Gains","Pain Relievers"],3,"Pain Relievers pertenece al Value Map."],
+["En Brand Funnel se prioriza...",["La etapa con menos personas","La transición con menor conversión","Siempre awareness","La etapa final"],1,"El eslabón débil es la menor conversión / mayor leakage."],
+["NPS = ...",["Promotores + Detractores","Promotores − Detractores","Detractores − Promotores","Promotores × Detractores"],1,""],
+["Branded House significa...",["Marcas independientes","Una marca madre con múltiples productos","Sin marca","Una marca para un producto"],1,""],
+["Cannibalización es...",["Competidor baja precio","Producto propio quita ventas a otro propio","Aumenta TAM","Sube NPS"],1,""],
+["Triple ajuste...",["Producto-precio-plaza","Cliente-compañía-competencia","TAM-SAM-SOM","Marca-canal-promoción"],1,""],
+["Segmentación vs targeting...",["Son iguales","Segmentación divide; targeting elige","Segmentación elige; targeting divide","Solo segmenta por edad"],1,""]
+];
+let qi=0,qa=false;
+function renderQ(){let x=MCQ[qi%MCQ.length];$("quizCount").textContent="Pregunta "+(qi+1)+" · ronda infinita";$("quizQ").textContent=x[0];$("quizA").innerHTML=x[1].map((a,i)=>`<button class="answer" data-i="${i}">${String.fromCharCode(65+i)}. ${a}</button>`).join("");$("quizF").innerHTML="";$("quizNext").disabled=true;qa=false;document.querySelectorAll("#quizA .answer").forEach(b=>b.onclick=()=>answerQ(+b.dataset.i))}
+function answerQ(i){if(qa)return;qa=true;let x=MCQ[qi%MCQ.length],ok=i===x[2];document.querySelectorAll("#quizA .answer").forEach((b,j)=>{if(j===x[2])b.classList.add("correct");if(j===i&&!ok)b.classList.add("wrong")});score(ok);$("quizF").innerHTML=`<div class="feedback">${ok?"✅ Correcto":"❌ Incorrecto"}${x[3]?" — "+x[3]:""}</div>`;$("quizNext").disabled=false}
+$("quizNext").onclick=()=>{qi++;renderQ()};$("quizRestart").onclick=()=>{qi=0;renderQ()};renderQ();
+
+const FILL=[
+["TAM = todo el mercado; SAM = parte a la que puedo ________; SOM = lo que puedo ________.",["llegar","atender","capturar"],"llegar / atender / capturar"],
+["Las 4P: Product, Price, Place y ________. ",["promotion"],"Promotion"],
+["PESTEL termina en ________. ",["legal"],"Legal"],
+["Jobs / Pains / Gains pertenecen al ________ Profile.",["customer"],"Customer"],
+["Leakage = 1 − tasa de ________. ",["conversion","conversión"],"Conversión"],
+["NPS = % Promotores − % ________. ",["detractores"],"Detractores"],
+["Segmentar es ________; targeting es ________. ",["dividir","elegir"],"Dividir / elegir"],
+["Una nueva oferta que quita ventas a otra propia genera ________. ",["cannibalizacion","cannibalización"],"Cannibalización"],
+["En B2B2C, quien usa puede no ser quien ________. ",["compra","paga"],"Compra / paga"]
+];
+let fi=0,fa=false;
+function renderFill(){let x=FILL[fi%FILL.length];$("fillCount").textContent="Pregunta "+(fi+1);$("fillQ").textContent=x[0];$("fillInput").value="";$("fillF").innerHTML="";fa=false}
+$("fillCheck").onclick=()=>{if(fa)return;fa=true;let x=FILL[fi%FILL.length],v=$("fillInput").value.toLowerCase().trim(),ok=x[1].some(a=>v.includes(a));score(ok);$("fillF").innerHTML=`<div class="feedback">${ok?"✅ Bien":"❌ Revisá"} — Respuesta: <strong>${x[2]}</strong></div>`};$("fillNext").onclick=()=>{fi++;renderFill()};renderFill();
+
+const TF=[
+["El SOM depende solo del tamaño del mercado.",false,"Depende de la capacidad y ejecución de la empresa."],
+["En B2B2C usuario y comprador pueden ser distintos.",true,""],
+["El mayor leakage siempre es la etapa con menos personas.",false,"Se mira la transición con menor conversión."],
+["Las 4P se analizan también como sistema.",true,"Coherencia, integración y apalancamiento."],
+["House of Brands usa una única marca madre.",false,"Eso es Branded House."],
+["Un factor PESTEL es siempre una amenaza.",false,"Puede ser oportunidad o amenaza."],
+["RFM = Recency, Frequency, Monetary.",true,""],
+["Miopía es centrarse demasiado en la necesidad del cliente.",false,"Es centrarse en producto y no en necesidad."]
+];
+let ti=0,ta=false;
+function renderTF(){let x=TF[ti%TF.length];$("tfCount").textContent="Pregunta "+(ti+1);$("tfQ").textContent=x[0];$("tfF").innerHTML="";ta=false}
+function tf(v){if(ta)return;ta=true;let x=TF[ti%TF.length],ok=v===x[1];score(ok);$("tfF").innerHTML=`<div class="feedback">${ok?"✅ Correcto":"❌ Incorrecto"} ${x[2]}</div>`}
+$("tfTrue").onclick=()=>tf(true);$("tfFalse").onclick=()=>tf(false);$("tfNext").onclick=()=>{ti++;renderTF()};renderTF();
+
+const MATCH=[
+["TAM","Todo el mercado potencial."],["SAM","Parte del mercado a la que realmente se puede llegar/atender."],["SOM","Lo que efectivamente se captura."],["Segmentación","Dividir el mercado en grupos."],["Targeting","Elegir el/los segmentos objetivo."],["Cannibalización","Producto propio quita ventas a otro producto propio."],["Branded House","Una marca madre reúne múltiples productos."],["House of Brands","Múltiples marcas independientes."],["Leakage","1 − tasa de conversión."],["NPS","Promotores menos detractores."],["Switching cost","Costo/fricción de cambiar de opción."],["Network effect","El valor aumenta cuando crece la cantidad de usuarios."]
+];
+let ml=[],mr=[],ms1=null,ms2=null;
+function newMatch(){let a=[...MATCH].sort(()=>Math.random()-.5).slice(0,8);ml=a.map((x,i)=>({id:i,t:x[0],done:false}));mr=a.map((x,i)=>({id:i,t:x[1],done:false})).sort(()=>Math.random()-.5);ms1=ms2=null;renderMatch()}
+function renderMatch(){$("matchL").innerHTML=ml.map(x=>`<div class="matchItem ${x.done?"done":""} ${ms1===x.id?"sel":""}" data-id="${x.id}">${x.t}</div>`).join("");$("matchR").innerHTML=mr.map(x=>`<div class="matchItem ${x.done?"done":""} ${ms2===x.id?"sel":""}" data-id="${x.id}">${x.t}</div>`).join("");$("matchScore").textContent=ml.filter(x=>x.done).length+" / "+ml.length+" parejas";document.querySelectorAll("#matchL .matchItem").forEach(e=>e.onclick=()=>{ms1=+e.dataset.id;renderMatch();tryPair()});document.querySelectorAll("#matchR .matchItem").forEach(e=>e.onclick=()=>{ms2=+e.dataset.id;renderMatch();tryPair()})}
+function tryPair(){if(ms1===null||ms2===null)return;let l=ml.find(x=>x.id===ms1),r=mr.find(x=>x.id===ms2),ok=l.id===r.id;score(ok);$("matchF").innerHTML=`<div class="feedback">${ok?"✅ Pareja correcta":"❌ No coinciden. Probá otra."}</div>`;if(ok){l.done=r.done=true}ms1=ms2=null;renderMatch()}
+$("matchNew").onclick=newMatch;newMatch();
+
+const FLASH=[["Marketing Myopia","Definir el negocio por el producto y no por la necesidad real."],["5C","Company, Customers, Competitors, Collaborators, Context."],["B2B2C","El que usa puede no ser quien compra directamente."],["TAM / SAM / SOM","Existe → puedo atender → puedo capturar."],["VPC","Jobs, Pains, Gains ↔ Products, Pain Relievers, Gain Creators."],["PESTEL","Political, Economic, Social, Technological, Environmental, Legal."],["Brand Funnel","Awareness → Familiarity → Consideration → Trial → Repurchase → Loyalty."],["4P","Product, Price, Place, Promotion."],["Branded House","Una marca madre con múltiples productos."],["House of Brands","Marcas independientes."],["RFM","Recency, Frequency, Monetary."],["NPS","% Promotores − % Detractores."]];
+let fl=0;
+function renderFlash(){let x=FLASH[fl%FLASH.length];$("flashTerm").textContent=x[0];$("flashDef").textContent=x[1];$("flashDef").classList.add("hidden")}
+$("flashReveal").onclick=()=>$("flashDef").classList.remove("hidden");$("flashNext").onclick=()=>{fl++;renderFlash()};renderFlash();
+
+const ORD=[["Brand Funnel",["Awareness","Familiarity","Consideration","Trial","Repurchase","Loyalty"]],["TAM / SAM / SOM",["TAM","SAM","SOM"]],["STP",["Segmentación","Targeting","Posicionamiento"]],["Customer Profile VPC",["Jobs","Pains","Gains"]]];
+let oi=0,arr=[];
+function renderOrder(){let x=ORD[oi%ORD.length];arr=[...x[1]].sort(()=>Math.random()-.5);$("orderTitle").textContent=x[0];$("sort").innerHTML=arr.map((v,i)=>`<div class="sortItem"><span>${i+1}. ${v}</span><span><button data-i="${i}" data-d="-1">↑</button><button data-i="${i}" data-d="1">↓</button></span></div>`).join("");$("orderF").innerHTML="";document.querySelectorAll("#sort button").forEach(b=>b.onclick=()=>{let i=+b.dataset.i,d=+b.dataset.d,j=i+d;if(j<0||j>=arr.length)return;[arr[i],arr[j]]=[arr[j],arr[i]];renderOrder()})}
+$("orderCheck").onclick=()=>{let ok=arr.join("|")===ORD[oi%ORD.length][1].join("|");score(ok);$("orderF").innerHTML=`<div class="feedback">${ok?"✅ Orden perfecto":"❌ Todavía no."}</div>`};$("orderNew").onclick=()=>{oi++;renderOrder()};renderOrder();
+
+$("calcMarket").onclick=()=>{let t=+$("tam").value,s=t*(+$("samPct").value/100),o=s*(+$("somPct").value/100),c=+$("cur").value;let p=s?c/s*100:0;$("marketR").innerHTML=`TAM: <b>${t.toLocaleString()}</b><br>SAM: <b>${s.toLocaleString()}</b><br>SOM: <b>${o.toLocaleString()}</b><br>Penetración: <b>${p.toFixed(2)}%</b>`};
+$("calcFunnel").onclick=()=>{let a=[1,2,3,4,5,6].map(i=>+$("f"+i).value),n=["Awareness → Familiarity","Familiarity → Consideration","Consideration → Trial","Trial → Repurchase","Repurchase → Loyalty"],vals=n.map((x,i)=>{let c=a[i+1]/a[i]*100;return [x,c,100-c]});let weak=vals.reduce((p,x)=>x[1]<p[1]?x:p,vals[0]);$("funnelR").innerHTML=vals.map(x=>`${x[0]}: <b>${x[1].toFixed(1)}%</b> conv. · ${x[2].toFixed(1)}% leakage`).join("<br>")+"<hr>Eslabón más débil: <b>"+weak[0]+"</b>"};
+$("calcNps").onclick=()=>$("npsR").innerHTML=`NPS = <b>${+$("prom").value-(+$("det").value)}</b>`;
+
+const PE=[["Nueva regulación obligatoria sobre etiquetado nutricional.","Legal"],["Inflación reduce disposición a pagar por premium.","Economic"],["Crece la preocupación de jóvenes por alimentación saludable.","Social"],["Tecnología reduce tiempos de delivery.","Technological"],["Nuevas exigencias sobre residuos de envases.","Environmental"],["Nueva política pública cambia reglas de la industria.","Political"]];
+let pei=0,pea=false;
+function renderPE(){let x=PE[pei%PE.length];$("peQ").textContent=x[0];$("peA").innerHTML=["Political","Economic","Social","Technological","Environmental","Legal"].map(c=>`<button class="choice" data-c="${c}">${c}</button>`).join("");$("peF").innerHTML="";pea=false;document.querySelectorAll("#peA .choice").forEach(b=>b.onclick=()=>{if(pea)return;pea=true;let ok=b.dataset.c===x[1];score(ok);$("peF").innerHTML=`<div class="feedback">${ok?"✅ Correcto":"❌ Incorrecto"} — era <b>${x[1]}</b>. Después preguntate: ¿amenaza u oportunidad para esta empresa?</div>`})}
+$("peNext").onclick=()=>{pei++;renderPE()};renderPE();
+
+const VPC=[["“Necesito resolver mi almuerzo sin cocinar.”","Job"],["“Me molesta que sea demasiado caro.”","Pain"],["“Quiero comer saludable y rápido.”","Gain"],["“Comidas listas para consumir.”","Product"],["“Delivery rápido.”","Pain Reliever"],["“Opción saludable, práctica y accesible.”","Gain Creator"]];
+let vi=0,va=false;
+function renderVPC(){let x=VPC[vi%VPC.length];$("vpcQ").textContent=x[0];$("vpcF").innerHTML="";va=false;$("vpcA").innerHTML=["Job","Pain","Gain","Product","Pain Reliever","Gain Creator"].map(c=>`<button class="choice" data-c="${c}">${c}</button>`).join("");document.querySelectorAll("#vpcA .choice").forEach(b=>b.onclick=()=>{if(va)return;va=true;let ok=b.dataset.c===x[1];score(ok);$("vpcF").innerHTML=`<div class="feedback">${ok?"✅ Correcto":"❌ Incorrecto"} — <b>${x[1]}</b></div>`})}
+$("vpcNext").onclick=()=>{vi++;renderVPC()};renderVPC();
+
+const MIX=[["Lanzar una nueva línea de platos para estudiantes.","Product"],["Aplicar un descuento de lanzamiento.","Price"],["Vender por una nueva app/delivery.","Place"],["Campaña con influencers universitarios.","Promotion"],["Las 4P cuentan la misma historia.","Coherencia"],["Una P alimenta a otra.","Integración"],["Una P potencia a las demás.","Apalancamiento"],["Antes de subir precio: cliente, compañía, competencia.","Triple ajuste"]];
+let xi=0,xa=false;
+function renderMix(){let x=MIX[xi%MIX.length];$("mixQ").textContent=x[0];$("mixF").innerHTML="";xa=false;$("mixA").innerHTML=["Product","Price","Place","Promotion","Coherencia","Integración","Apalancamiento","Triple ajuste"].map(c=>`<button class="choice" data-c="${c}">${c}</button>`).join("");document.querySelectorAll("#mixA .choice").forEach(b=>b.onclick=()=>{if(xa)return;xa=true;let ok=b.dataset.c===x[1];score(ok);$("mixF").innerHTML=`<div class="feedback">${ok?"✅ Correcto":"❌ Incorrecto"} — <b>${x[1]}</b></div>`})}
+$("mixNext").onclick=()=>{xi++;renderMix()};renderMix();
+
+$("posBuild").onclick=()=>{let a=["pt","pc","pv","pe"].map(x=>$(x).value.trim());$("posR").innerHTML=a.some(x=>!x)?"Completá los cuatro componentes.":`<b>Statement:</b> Para ${a[0]}, frente a ${a[1]}, la propuesta ofrece ${a[2]}, respaldada por ${a[3]}.`};
+
+const CASES=[
+["Caso 1 · Precio y expansión","NOVA BOX vende comidas saludables listas para consumir. Tiene una línea premium y quiere lanzar una económica para estudiantes. Es reconocida entre deportistas, pero poco entre estudiantes. Competidores directos tienen precios menores. La dirección también quiere subir el precio premium.","Analizá la decisión. Usá 5C, segmentación/targeting, propuesta de valor, 4P, competencia y triple ajuste."],
+["Caso 2 · Mercado","POTRERO FIT estima 120.000 personas interesadas en entrenamiento. Puede operar en una zona que contiene 48.000 de ellas. Por capacidad y ejecución espera captar 4.800. Hoy tiene 2.400 clientes.","Calculá TAM, SAM, SOM y penetración. Después explicá dónde está el cuello de botella y qué información pedirías para validar la estimación."],
+["Caso 3 · Marca","Una marca tiene Awareness 80.000, Familiarity 64.000, Consideration 32.000, Trial 16.000, Repurchase 12.800 y Loyalty 10.240.","Calculá las cinco conversiones y cinco leakages. Indicá cuál transición priorizarías y por qué. Luego proponé una hipótesis de problema de marca."],
+["Caso 4 · B2B2C","Una empresa tecnológica vende una herramienta a operadores móviles, que la ofrecen bajo su propia marca a sus suscriptores. El usuario final ama la herramienta, pero los operadores dudan en ofrecerla.","Explicá el modelo B2B2C. Diferenciá usuario y comprador. Proponé qué información cualitativa y cuantitativa usarías y cómo definirías targeting/posicionamiento."],
+["Caso 5 · Mix y marca","Una empresa lanza una línea barata bajo su misma marca premium. El producto se vende en supermercados masivos, con descuentos y comunicación de precio. Las ventas de la línea premium empiezan a caer.","Analizá coherencia del mix, arquitectura de marca, extensión de rango y posible cannibalización. Separá qué problema es de portfolio y cuál puede ser de marca."],
+["Caso 6 · Entorno","Una empresa de alimentos enfrenta inflación, una nueva regulación de envases, una tendencia creciente hacia alimentación saludable y una tecnología que reduce costos de entrega. Al mismo tiempo, un competidor baja precios.","Clasificá cada factor en PESTEL, indicá amenaza/oportunidad y conectá el análisis con competencia y Marketing Mix."]
+];
+let ci=0;
+function renderCase(){let x=CASES[ci];$("caseTitle").textContent=x[0];$("caseText").textContent=x[1]+"\\n\\nCONSIGNA\\n"+x[2];$("caseAnswer").value="";$("caseR").innerHTML="";$("caseTabs").innerHTML=CASES.map((c,i)=>`<button class="btn ${i===ci?"":"secondary"}" data-i="${i}">Caso ${i+1}</button>`).join("");document.querySelectorAll("#caseTabs button").forEach(b=>b.onclick=()=>{ci=+b.dataset.i;renderCase()})}
+$("caseRubric").onclick=()=>{let t=$("caseAnswer").value.toLowerCase();let terms=["cliente","competencia","segment","target","propuesta","4p","mix","precio","pestel","tam","sam","som","marca","cannibal","posicion","vpc","b2b2c","funnel","leakage","nps","portfolio"];let hit=terms.filter(k=>t.includes(k)).length;let level=hit>=8?"Muy completo 🔥":hit>=5?"Buen análisis 🟢":"Faltan conexiones 🟡";$("caseR").innerHTML=`<div class="feedback"><b>${level}</b><br>La corrección automática detectó ${hit}/${terms.length} conceptos clave mencionados. Esto NO evalúa la calidad de tu explicación: revisá que cada concepto esté conectado con evidencia del caso.</div>`};
+function casePrompt(){return `Actuá como profesor de Marketing y corregí mi respuesta a este caso. Usá exclusivamente la terminología y marco del material del curso que te doy. No inventes conceptos. Quiero: 1) nota sobre 10, 2) qué está bien, 3) errores conceptuales, 4) conceptos faltantes, 5) cómo mejoraría la respuesta, 6) modelo de respuesta.\\n\\nCASO:\\n${CASES[ci][1]}\\n\\nCONSIGNA:\\n${CASES[ci][2]}\\n\\nMI RESPUESTA:\\n${$("caseAnswer").value}`}
+// Clipboard + ChatGPT open. No API key required.
+$("caseCopy").onclick=async()=>{let p=casePrompt();try{await navigator.clipboard.writeText(p);$("caseR").innerHTML='<div class="feedback">✅ Prompt copiado. Pegalo en ChatGPT para obtener una corrección detallada con nota.</div>'}catch(e){$("caseR").innerHTML='<div class="feedback">Copiá manualmente el texto desde la caja de respuesta y pedí una corrección con nota.</div>'}};
+$("caseOpen").onclick=()=>{let p=encodeURIComponent(casePrompt());window.open("https://chatgpt.com/?q="+p,"_blank")};
+renderCase();
+
+const RAPID=MCQ.slice(0,10);let ri=0,rr=false,rs=0,rt=60,intv=null;
+function rapidRender(){let x=RAPID[ri];$("rapidQ").textContent=x[0];$("rapidA").innerHTML=x[1].map((a,i)=>`<button class="answer" data-i="${i}">${a}</button>`).join("");$("rapidF").innerHTML="";document.querySelectorAll("#rapidA .answer").forEach(b=>b.onclick=()=>{if(!rr)return;let ok=+b.dataset.i===x[2];score(ok);if(ok)rs++;ri++;if(ri>=10){finishRapid();return}rapidRender()})}
+function finishRapid(){clearInterval(intv);rr=false;$("rapidQ").textContent="Terminaste: "+rs+"/10";$("rapidA").innerHTML="";$("rapidF").innerHTML="<div class='feedback'>🔥 Buen trabajo. Volvé a intentar para mejorar tiempo y precisión.</div>"}
+$("rapidStart").onclick=()=>{clearInterval(intv);ri=0;rs=0;rt=60;rr=true;$("rapidT").textContent=60;rapidRender();intv=setInterval(()=>{rt--;$("rapidT").textContent=rt;if(rt<=0)finishRapid()},1000)};
+</script>
+</body>
+</html>
